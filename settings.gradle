@@ -1,0 +1,3 @@
+include ':live2dview'
+include ':app'
+rootProject.name = "Live2DViewSample"
