@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 # Set app name.
 set(APP_NAME live2dview)
 # Set directory paths.
-set(CORE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/libs/core)
+set(CORE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cubism)
 set(FRAMEWORK_PATH ${CORE_PATH}/Framework)
 set(STB_PATH ${CORE_PATH}/stb)
 

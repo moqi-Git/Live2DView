@@ -22,7 +22,7 @@ target_include_directories(${LIB_NAME}
 # Add core include.
 target_include_directories(${LIB_NAME}
   PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/../Core/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../include
 )
 # Add definitions.
 target_compile_definitions(${LIB_NAME}
