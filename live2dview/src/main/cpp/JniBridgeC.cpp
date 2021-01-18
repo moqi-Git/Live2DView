@@ -8,8 +8,6 @@
 #include <jni.h>
 #include "JniBridgeC.hpp"
 #include <android/log.h>
-//#include "LAppDelegate.hpp"
-//#include "LAppPal.hpp"
 
 
 #define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, "TAG" ,__VA_ARGS__)
@@ -38,67 +36,5 @@ jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
 
 void JNICALL JNI_OnUnload(JavaVM *vm, void *reserved) {
 
-}
-
-extern "C"
-{
-//    JNIEXPORT void JNICALL
-//    Java_com_live2d_demo_JniBridgeJava_nativeOnStart(JNIEnv *env, jclass type)
-//    {
-////        LAppDelegate::GetInstance()->OnStart();
-//    }
-
-//    JNIEXPORT void JNICALL
-//    Java_com_live2d_demo_JniBridgeJava_nativeOnPause(JNIEnv *env, jclass type)
-//    {
-////        LAppDelegate::GetInstance()->OnPause();
-//    }
-
-//    JNIEXPORT void JNICALL
-//    Java_com_live2d_demo_JniBridgeJava_nativeOnStop(JNIEnv *env, jclass type)
-//    {
-////        LAppDelegate::GetInstance()->OnStop();
-//    }
-
-//    JNIEXPORT void JNICALL
-//    Java_com_live2d_demo_JniBridgeJava_nativeOnDestroy(JNIEnv *env, jclass type)
-//    {
-////        LAppDelegate::GetInstance()->OnDestroy();
-//    }
-
-JNIEXPORT void JNICALL
-Java_com_moqi_live2dview_JNIBridge_nativeOnSurfaceCreated(JNIEnv *env, jclass type) {
-//        LAppDelegate::GetInstance()->OnSurfaceCreate();
-}
-
-JNIEXPORT void JNICALL
-Java_com_moqi_live2dview_JNIBridge_nativeOnSurfaceChanged(JNIEnv *env, jclass type, jint width,
-                                                          jint height) {
-//        LAppDelegate::GetInstance()->OnSurfaceChanged(width, height);
-}
-
-JNIEXPORT void JNICALL
-Java_com_moqi_live2dview_JNIBridge_nativeOnDrawFrame(JNIEnv *env, jclass type) {
-//        LAppDelegate::GetInstance()->Run();
-}
-
-JNIEXPORT void JNICALL
-Java_com_moqi_live2dview_JNIBridge_onTouchDown(JNIEnv *env, jclass type, jfloat pointX,
-                                               jfloat pointY) {
-//        LAppDelegate::GetInstance()->OnTouchBegan(pointX, pointY);
-    LOGE("onTouchDown: %f, %f", pointX, pointY);
-}
-
-JNIEXPORT void JNICALL
-Java_com_moqi_live2dview_JNIBridge_onTouchUp(JNIEnv *env, jclass type, jfloat pointX,
-                                             jfloat pointY) {
-//        LAppDelegate::GetInstance()->OnTouchEnded(pointX, pointY);
-}
-
-JNIEXPORT void JNICALL
-Java_com_moqi_live2dview_JNIBridge_onTouchMove(JNIEnv *env, jclass type, jfloat pointX,
-                                               jfloat pointY) {
-//        LAppDelegate::GetInstance()->OnTouchMoved(pointX, pointY);
-}
 }
 
