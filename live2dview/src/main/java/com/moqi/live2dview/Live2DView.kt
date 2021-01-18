@@ -34,6 +34,14 @@ class Live2DView @JvmOverloads constructor(
         addView(surfaceView, LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
     }
 
+//    fun setModelPath(filePath: String){
+//
+//    }
+
+    fun setModelAssetName(assetName: String){
+
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         val x = event?.x?:0f

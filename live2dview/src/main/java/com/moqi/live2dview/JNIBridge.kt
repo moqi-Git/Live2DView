@@ -26,6 +26,9 @@ class JNIBridge {
 
         @JvmStatic
         external fun onTouchMove(pointX: Float, pointY: Float)
+
+//        @JvmStatic
+//        external fun
     }
 
 
