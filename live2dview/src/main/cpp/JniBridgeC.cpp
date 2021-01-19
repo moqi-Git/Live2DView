@@ -8,6 +8,7 @@
 #include <jni.h>
 #include "JniBridgeC.hpp"
 #include <android/log.h>
+#include <CubismModelSettingJson.hpp>
 
 
 #define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, "TAG" ,__VA_ARGS__)
@@ -38,3 +39,14 @@ void JNICALL JNI_OnUnload(JavaVM *vm, void *reserved) {
 
 }
 
+extern "C"
+JNIEXPORT jint JNICALL
+Java_com_moqi_live2dview_Live2DModel_createModel(JNIEnv *env, jobject thiz,
+                                                 jbyteArray model_config_json, jint buffer_size) {
+    Live2D::Cubism::Framework::csmSizeInt size = buffer_size;
+    jbyte* bytes = env->GetByteArrayElements(model_config_json, 0);
+    auto* buffer = reinterpret_cast<Live2D::Cubism::Framework::csmByte *>(bytes);
+    Live2D::Cubism::Framework::ICubismModelSetting* setting = new Live2D::Cubism::Framework::CubismModelSettingJson(buffer, size);
+
+
+}

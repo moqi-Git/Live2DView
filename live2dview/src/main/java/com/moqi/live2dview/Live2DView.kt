@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.Toast
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
@@ -29,6 +30,9 @@ class Live2DView @JvmOverloads constructor(
         }
     }
 
+    private var model: Live2DModel? = null
+
+
     init {
         surfaceView.setRenderer(renderer)
         addView(surfaceView, LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
@@ -36,10 +40,25 @@ class Live2DView @JvmOverloads constructor(
 
 //    fun setModelPath(filePath: String){
 //
+//
 //    }
 
     fun setModelAssetName(assetName: String){
+        if (model != null){
+//            model.release()
+        }
 
+        model = Live2DModel.createFormAsset(context, assetName)
+        if (model == null){
+            // todo: 处理模型加载失败的问题，看看是在createFormAsset抛出异常还是在这里报错？
+            onLoadModelError("错误信息？")
+        }
+        // 设置后需要更新，应该可以在 onDrawFrame 里进行测试
+    }
+
+    private fun onLoadModelError(errorMsg: String){
+        // fixme
+        Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show()
     }
 
     @SuppressLint("ClickableViewAccessibility")

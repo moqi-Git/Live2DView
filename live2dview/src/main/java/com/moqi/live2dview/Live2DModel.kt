@@ -1,24 +1,76 @@
 package com.moqi.live2dview
 
-class Live2DModel private constructor(private val modelDir: String, private val isAsset: Boolean){
+import android.content.Context
+import android.util.Log
+import java.io.File
+import java.io.FileInputStream
+import java.io.InputStream
+import java.lang.Exception
+
+class Live2DModel private constructor(
+    private val context: Context,
+    private val modelDir: String,
+    private val isAsset: Boolean
+) {
+
+    private var modelId = -1
+
+    init {
+        val modelConfigName = modelDir + "/" + modelDir.split("/").last() + ".model3.json"
+        Log.e("asdfg", "modelConfigName = $modelConfigName")
+        val modelConfigJson = loadFile(modelConfigName)
+        if (modelConfigJson != null){
+            modelId = createModel(modelConfigJson, modelConfigJson.size)
+        } else {
+            throw IllegalArgumentException("wrong model")
+        }
+    }
 
 
 
-    external fun getLive2DModelInfo(buffer: ByteArray): Live2DModelInfo
+    fun release(){
+        releaseModel(modelId)
+    }
 
-    companion object{
+    // *** *** *** ***
+
+    fun loadFile(fileName: String): ByteArray? {
+        var inputStream: InputStream? = null
+        try {
+            if (isAsset) {
+                inputStream = context.assets.open("$modelDir/$fileName")
+            } else {
+                inputStream = FileInputStream(File("$modelDir/$fileName"))
+            }
+            val fileSize = inputStream.available()
+            val buffer = ByteArray(fileSize)
+            inputStream.read(buffer, 0, fileSize)
+            return buffer
+        } catch (e: Exception){
+            return null
+        } finally {
+            inputStream?.close()
+        }
+    }
+
+    external fun createModel(modelConfigJson: ByteArray, bufferSize: Int): Int
+
+    external fun releaseModel(modelId: Int)
+
+    companion object {
         @JvmStatic
-        fun createFormAsset(assetName: String): Live2DModel{
-            return Live2DModel(assetName, true)
+        fun createFormAsset(context: Context, assetName: String): Live2DModel {
+            return Live2DModel(context, assetName, true)
         }
 
         @JvmStatic
-        fun createFormFile(filePath: String): Live2DModel{
-            return Live2DModel(filePath, false)
+        fun createFormFile(context: Context, filePath: String): Live2DModel {
+            return Live2DModel(context, filePath, false)
         }
 
         // JNI 初始化
         private val LIBRARY_NAME = "live2dview"
+
         init {
             System.loadLibrary(LIBRARY_NAME)
         }
