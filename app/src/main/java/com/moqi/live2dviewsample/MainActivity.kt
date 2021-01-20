@@ -10,7 +10,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        vb = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(vb.root)
 
         vb.live2dView.setModelAssetName("Hiyori")
     }

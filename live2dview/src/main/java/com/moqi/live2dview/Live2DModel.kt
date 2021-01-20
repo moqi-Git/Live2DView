@@ -38,7 +38,8 @@ class Live2DModel private constructor(
         var inputStream: InputStream? = null
         try {
             if (isAsset) {
-                inputStream = context.assets.open("$modelDir/$fileName")
+                Log.e("asdfg", "asset name = $fileName")
+                inputStream = context.assets.open(fileName)
             } else {
                 inputStream = FileInputStream(File("$modelDir/$fileName"))
             }

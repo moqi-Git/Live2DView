@@ -7,11 +7,14 @@
 
 #include <jni.h>
 #include "JniBridgeC.hpp"
+#include "LAppAllocator.hpp"
+#include "LAppDefine.hpp"
+#include "LAppPal.hpp"
 #include <android/log.h>
 #include <CubismModelSettingJson.hpp>
 
 
-#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, "TAG" ,__VA_ARGS__)
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, "Live2DModel" ,__VA_ARGS__)
 
 //using namespace Csm;
 
@@ -43,10 +46,37 @@ extern "C"
 JNIEXPORT jint JNICALL
 Java_com_moqi_live2dview_Live2DModel_createModel(JNIEnv *env, jobject thiz,
                                                  jbyteArray model_config_json, jint buffer_size) {
-    Live2D::Cubism::Framework::csmSizeInt size = buffer_size;
-    jbyte* bytes = env->GetByteArrayElements(model_config_json, 0);
-    auto* buffer = reinterpret_cast<Live2D::Cubism::Framework::csmByte *>(bytes);
-    Live2D::Cubism::Framework::ICubismModelSetting* setting = new Live2D::Cubism::Framework::CubismModelSettingJson(buffer, size);
+    LOGE("Cubism SDK init");
+    LAppAllocator _cubismAllocator;
+    Csm::CubismFramework::Option _cubismOption{};
+    _cubismOption.LogFunction = LAppPal::PrintMessage;
+    _cubismOption.LoggingLevel = LAppDefine::CubismLoggingLevel;
+    Csm::CubismFramework::CleanUp();
+    Csm::CubismFramework::StartUp(&_cubismAllocator, &_cubismOption);
 
+    LOGE("createModel start");
+    Live2D::Cubism::Framework::csmSizeInt size = buffer_size;
+    LOGE("read byte buffer, size=%d", buffer_size);
+    char* bytes = new char[size];
+    env->GetByteArrayRegion(model_config_json, 0, size, reinterpret_cast<jbyte *>(bytes));
+    auto* buffer = reinterpret_cast<Live2D::Cubism::Framework::csmByte *>(bytes);
+    if (buffer == nullptr){
+        LOGE("buffer cast to unsigned char* failed");
+    }
+    LOGE("convert buffer to ICubismModelSetting start");
+    Live2D::Cubism::Framework::ICubismModelSetting* setting = new Live2D::Cubism::Framework::CubismModelSettingJson(buffer, size);
+    LOGE("convert buffer to ICubismModelSetting end");
+    delete[] bytes;
+    delete[] buffer;
+
+
+
+    LOGE("setting: name=%s", setting->GetModelFileName());
+    return 0;
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_moqi_live2dview_Live2DModel_releaseModel(JNIEnv *env, jobject thiz, jint model_id) {
 
 }

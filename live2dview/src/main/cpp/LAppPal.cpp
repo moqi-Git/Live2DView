@@ -34,7 +34,8 @@ csmByte* LAppPal::LoadFileAsBytes(const string filePath, csmSizeInt* outSize)
     const char* path = filePath.c_str();
 
     // file buffer
-    char* buf = JniBridgeC::LoadFileAsBytesFromJava(path, outSize);
+//    char* buf = JniBridgeC::LoadFileAsBytesFromJava(path, outSize);
+    char* buf = nullptr;
 
     return reinterpret_cast<csmByte*>(buf);
 }

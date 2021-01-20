@@ -18,15 +18,15 @@ class Live2DView @JvmOverloads constructor(
     private val surfaceView = GLSurfaceView(context)
     private val renderer = object: GLSurfaceView.Renderer{
         override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
-            JNIBridge.nativeOnSurfaceCreated()
+//            JNIBridge.nativeOnSurfaceCreated()
         }
 
         override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
-            JNIBridge.nativeOnSurfaceChanged(width, height)
+//            JNIBridge.nativeOnSurfaceChanged(width, height)
         }
 
         override fun onDrawFrame(gl: GL10?) {
-            JNIBridge.nativeOnDrawFrame()
+//            JNIBridge.nativeOnDrawFrame()
         }
     }
 
@@ -67,13 +67,13 @@ class Live2DView @JvmOverloads constructor(
         val y = event?.y?:0f
         when(event?.actionMasked){
             MotionEvent.ACTION_DOWN -> {
-                JNIBridge.onTouchDown(x, y)
+//                JNIBridge.onTouchDown(x, y)
             }
             MotionEvent.ACTION_UP -> {
-                JNIBridge.onTouchUp(x, y)
+//                JNIBridge.onTouchUp(x, y)
             }
             MotionEvent.ACTION_MOVE -> {
-                JNIBridge.onTouchMove(x, y)
+//                JNIBridge.onTouchMove(x, y)
             }
         }
         return super.onTouchEvent(event)
