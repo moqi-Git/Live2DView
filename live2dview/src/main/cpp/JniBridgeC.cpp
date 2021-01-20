@@ -10,6 +10,7 @@
 #include "LAppAllocator.hpp"
 #include "LAppDefine.hpp"
 #include "LAppPal.hpp"
+#include "LAppModel.hpp"
 #include <android/log.h>
 #include <CubismModelSettingJson.hpp>
 
@@ -69,9 +70,30 @@ Java_com_moqi_live2dview_Live2DModel_createModel(JNIEnv *env, jobject thiz,
     delete[] bytes;
     delete[] buffer;
 
+    LOGE("ICubismModelSetting name: %s", setting->GetModelFileName());
 
+    jclass live2dmodel = env->GetObjectClass(thiz);
+    jmethodID loadFile = env->GetMethodID(live2dmodel, "loadFile", "(Ljava/lang/String;)[B");
 
-    LOGE("setting: name=%s", setting->GetModelFileName());
+    LOGE("native load model file start");
+//    Csm::CubismMoc* moc = Csm::CubismMoc::Create();
+//    auto* model = new Csm::CubismUserModel();
+    if (strcmp(setting->GetModelFileName(), "") != 0){
+        jstring mocName = env->NewStringUTF(setting->GetModelFileName());
+        LOGE("native load moc file: %s", setting->GetModelFileName());
+        auto file = (jbyteArray)env->CallObjectMethod(thiz, loadFile, mocName);
+        int modelFileSize = env->GetArrayLength(file);
+        char* modelFileBuffer = new char[modelFileSize];
+        env->GetByteArrayRegion(file, 0, size, reinterpret_cast<jbyte *>(modelFileBuffer));
+        Csm::CubismMoc* moc = Csm::CubismMoc::Create(
+                reinterpret_cast<const Live2D::Cubism::Framework::csmByte *>(modelFileBuffer), modelFileSize);
+//        model->LoadModel(reinterpret_cast<const Live2D::Cubism::Framework::csmByte *>(modelFileBuffer), size);
+        LOGE("native load moc file end");
+        Csm::CubismModel* model = moc->CreateModel();
+        LOGE("model info: w=%f,h=%f", model->GetCanvasWidth(), model->GetCanvasHeight());
+    }
+//    LOGE("model info: w=%f,h=%f", model->GetModel()->GetCanvasWidth(), model->GetModel()->GetCanvasHeight());
+
     return 0;
 }
 

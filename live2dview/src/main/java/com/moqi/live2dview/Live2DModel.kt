@@ -16,7 +16,7 @@ class Live2DModel private constructor(
     private var modelId = -1
 
     init {
-        val modelConfigName = modelDir + "/" + modelDir.split("/").last() + ".model3.json"
+        val modelConfigName = modelDir.split("/").last() + ".model3.json"
         Log.e("asdfg", "modelConfigName = $modelConfigName")
         val modelConfigJson = loadFile(modelConfigName)
         if (modelConfigJson != null){
@@ -39,7 +39,7 @@ class Live2DModel private constructor(
         try {
             if (isAsset) {
                 Log.e("asdfg", "asset name = $fileName")
-                inputStream = context.assets.open(fileName)
+                inputStream = context.assets.open("$modelDir/$fileName")
             } else {
                 inputStream = FileInputStream(File("$modelDir/$fileName"))
             }
